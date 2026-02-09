@@ -3,11 +3,21 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
-import ThemeCustomizer from "@/components/theme-customizer/theme-customizer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { ReactNode } from "react";
-import { Toaster } from "react-hot-toast";
+import dynamic from "next/dynamic";
+import { ReactNode, Suspense } from "react";
+
+// 🚀 Dynamic imports for non-critical components (loaded after initial render)
+const ThemeCustomizer = dynamic(
+  () => import("@/components/theme-customizer/theme-customizer"),
+  { ssr: false }
+);
+
+const Toaster = dynamic(
+  () => import("react-hot-toast").then((mod) => mod.Toaster),
+  { ssr: false }
+);
 
 export function ClientRoot({
   defaultOpen,
@@ -34,8 +44,13 @@ export function ClientRoot({
           </div>
           <Footer />
         </main>
-        <ThemeCustomizer />
-        <Toaster position="top-center" reverseOrder={false} />
+        {/* Non-critical components loaded lazily */}
+        <Suspense fallback={null}>
+          <ThemeCustomizer />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Toaster position="top-center" reverseOrder={false} />
+        </Suspense>
       </SidebarProvider>
     </ThemeProvider>
   );
