@@ -2,8 +2,12 @@
 
 import { ApexOptions } from "apexcharts";
 import dynamic from 'next/dynamic';
+import ChartSkeleton from "./chart-skeleton";
 
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const Chart = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+  loading: () => <ChartSkeleton height={270} showBars={false} />
+});
 
 const UserOverviewChart = () => {
   const chartOptions: ApexOptions = {

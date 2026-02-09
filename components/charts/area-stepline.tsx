@@ -1,8 +1,12 @@
 "use client";
 
 import { ApexOptions } from "apexcharts";
-import dynamic from 'next/dynamic';
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+import dynamic from 'next/dynamic'
+import ChartSkeleton from './chart-skeleton';
+const Chart = dynamic(() => import('react-apexcharts'), { 
+  ssr: false,
+  loading: () => <ChartSkeleton />
+});
 
 interface ChartColorType {
     color1?: string;

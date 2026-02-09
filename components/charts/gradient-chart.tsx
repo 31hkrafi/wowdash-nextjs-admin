@@ -1,9 +1,13 @@
 "use client";
 
 import dynamic from 'next/dynamic'
+import ChartSkeleton from './chart-skeleton'
 import React from "react";
 import { ApexOptions } from "apexcharts";
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+const Chart = dynamic(() => import('react-apexcharts'), { 
+  ssr: false,
+  loading: () => <ChartSkeleton />
+});
 
 const chartOptions: ApexOptions = {
 

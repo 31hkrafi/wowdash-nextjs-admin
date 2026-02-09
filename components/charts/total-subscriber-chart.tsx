@@ -3,7 +3,12 @@
 import dynamic from 'next/dynamic'
 import React from "react";
 import { ApexOptions } from "apexcharts";
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+import ChartSkeleton from "./chart-skeleton";
+
+const Chart = dynamic(() => import('react-apexcharts'), {
+    ssr: false,
+    loading: () => <ChartSkeleton height={235} />
+});
 
 const TotalSubscriberChart = () => {
     const chartSeries: ApexAxisChartSeries = [{
